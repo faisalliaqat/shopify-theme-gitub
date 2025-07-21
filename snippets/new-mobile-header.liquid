@@ -1,0 +1,68 @@
+
+{{ 'new-mobile-header.css' | asset_url | stylesheet_tag }}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{ 'new-mobile-header-1.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'new-mobile-header-2.js' | asset_url }}" defer="defer"></script>
+<script>
+        $(document).ready(function () {
+            flmenu({
+                menu: '.site-menu',
+                activeClass: 'active',
+                footer: '#flmenu-tools',
+                position: 'left',
+                closeOnBodyClick: true
+            });
+        });
+    </script>
+<!-- mobile menu toggle button start -->
+<button class="flmenu__toggle" type="button">
+    <span class="flmenu__icon-toggle"></span> <span class="flmenu__sr-only">Menu</span>
+</button>
+<!-- mobile menu toggle button end -->
+        <div style="display: none;">
+
+    <!-- source for mobile menu start -->
+    <ul class="site-menu">
+      {%- for link in section.settings.menu.links -%}
+
+        {%- if link.links != blank -%}
+        <li>
+            <a href="{{ link.url | escape }}">{{ link.title | escape }}</a>
+            <ul>
+               {%- for childlink in link.links -%}
+                 
+                
+                 {%- if childlink.links != blank -%}
+                <li>
+                    <a href="{{ childlink.url | escape }}">{{ childlink.title | escape }}</a>
+                    <ul>
+                      {%- for grandchildlink in childlink.links -%}
+                        <li><a href="{{ grandchildlink.url | escape }}">{{ grandchildlink.title | escape }}</a></li>
+                      {% endfor %}  
+                       
+                    </ul>
+                </li>
+                {% else %} 
+                <li><a href="{{ childlink.url | escape }}">{{ childlink.title | escape }}</a></li>
+                {% endif %}   
+                
+                
+              {% endfor %}
+            </ul>
+        </li>
+        {% else %}
+        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+       {% endif %}
+       
+        
+        
+        {% endfor %}
+    </ul>
+    <!-- source for mobile menu end -->
+
+    <!-- source for mobile menu footer start -->
+    <!-- <div id="flmenu-tools" class="flmenu__tools">
+        footer <a href="index-page.html">content</a> here
+    </div> -->
+    <!-- source for mobile menu footer end -->
+</div>

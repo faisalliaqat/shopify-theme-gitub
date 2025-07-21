@@ -1,0 +1,69 @@
+<nav  class="fl-navigation fl-header-navigation ">
+  <ul  id="fl-main-nav" class="flnavigation-menu">
+    {%- for link in section.settings.menu.links -%}
+    <li  class="fl-navigation-menuitem ">
+      <a class="fl-navigation-menulink " href="{{ link.url }}">
+        {{ link.title }}
+      </a>
+      <div class="fl-dropdown fl-dropdown-child">
+        <ul class="  fl-js-dropdown fl-dropdown-innerchild">
+          {%- for childlink in link.links -%}
+          <li  class="fl-navigation-menuitem ">
+            <a class="fl-navigation-menulink " href="{{ childlink.url }}">
+              {{ childlink.title }}
+            </a>
+            <div class="fl-dropdown fl-dropdown-grandchild">
+              <ul class="  fl-js-dropdown fl-dropdown-innergrandchild">
+                {%- for grandchildlink in childlink.links -%}
+                <li  class="fl-navigation-menuitem ">
+                  <a class="fl-navigation-menulink " href="{{ grandchildlink.url }}">
+                    {{ grandchildlink.title }}
+                  </a>
+                </li>  
+               {% endfor %}  
+              </ul>
+            </div>
+          </li>  
+         {% endfor %}  
+        </ul>
+      </div>
+    </li>
+  {% endfor %}  
+  </ul>
+</nav>
+
+
+
+
+
+
+
+
+
+<style>
+  .flnavigation-menu{
+    display: flex;
+  }
+.fl-navigation ul {
+    margin: 0;
+    padding: 0;
+}
+.fl-navigation li.fl-navigation-menuitem {
+    list-style: none;
+}
+  a.fl-navigation-menulink {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin-right: 15px;
+    text-decoration: none;
+    color: #1d1d1d;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.fl-dropdown-innerchild {
+    display: flex;
+}
+  
+</style>

@@ -1,0 +1,231 @@
+
+
+
+<style>
+  .inner_shipping {
+	width: 100%;
+}
+
+.main_shipping {
+	width: 100%;
+	max-width: 415px;
+}
+
+.container {
+	width: 100%;
+	max-width: 100%;
+}
+
+        /* image_shipping */
+.image_shipping {
+	background: #EAEAEA;
+}
+
+.image_shipping img {
+	width: 60px;
+}
+
+        /* shiiping_heading */
+.shiiping_heading {
+	display: flex;
+	align-items: center;
+	padding-bottom: 20px;
+}
+
+.shipping_protection_heading {
+	padding: 0px 0px 0px 20px;
+}
+
+.shipping_protection_title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+.shipping_protection_title h3 {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 20px;
+	margin-bottom: 8px;
+	color: #000000;
+}
+
+.shipping_protection_title span {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 20px;
+	margin-bottom: 8px;
+	color: #000000;
+}
+
+        /* shipping_protection_description */
+.shipping_protection_description {
+	width: 100%;
+	max-width: 252px;
+}
+
+.shipping_protection_description p {
+	font-size: 13px;
+	line-height: 16px;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: 0.45px;
+	color: #000000;
+	opacity: 0.4;
+	margin: 0px;
+}
+
+        /* toggle_container */
+.toggle_container {
+	margin: 20px 0px 0px 20px;
+}
+
+.inner_shipping .switch {
+	position: relative;
+	display: inline-block;
+	height: 26px;
+	width: 54px;
+	background: #c4cdd5;
+	border-radius: 100px;
+	box-shadow: 0 1.6875px 0 rgba(22, 29, 37, .1), inset 0 1.6875px 0 1.6875px hsla(0, 0%, 100%, .06);
+	border: 2px solid #fff;
+	transition: 0.4s;
+	padding: 2px;
+	cursor: pointer;
+}
+
+.inner_shipping .switch input {
+	display: none;
+}
+
+.inner_shipping .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 100px;
+}
+
+.inner_shipping .slider:before {
+	position: absolute;
+	content: "";
+	height: 19px;
+	width: 19px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: 0.4s;
+	border-radius: 50%;
+}
+
+.inner_shipping  input:checked+.slider {
+	background: #0dcd8d;
+}
+
+.inner_shipping input:checked+.slider:before {
+	transform: translateX(26px);
+}
+
+.fr_hidden {
+	display: none!important;
+}
+</style>
+
+
+<div class="f-cart-drawer-footer-row2">
+     <div class="inner_shipping">
+       {% assign variant_id_to_check = pro_id %}
+        {% assign variant_found = false %}
+        
+        {% for item in cart.items %}
+          {% if item.variant_id == variant_id_to_check %}
+            {% assign variant_found = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        <div class="container">
+            <div class="main_shipping">
+                <div class="shiiping_heading">
+                    <div class="image_shipping">
+                        <img src="https://cdn.shopify.com/s/files/1/0259/3819/files/shipping-protection-v2_e1b24927-7b44-4d3b-8055-7b0c5189b884.png?v=1727866245" alt="">
+                    </div>
+                    <div class="shipping_protection_heading">
+                        <div class="shipping_protection_title">
+                            <h3>{{ protection_title }}</h3>
+                            <span class="price">{{ ship_pro.price | money }}</span>
+                        </div>
+                        <div class="shipping_protection_description">
+                            <p>{{ protection_text }}</p>
+                        </div>
+                    </div>
+                    <div class="toggle_container">
+                      <form method="post" action="/cart/add" id="AddToCartForm-{{ pro_id }}" accept-charset="UTF-8" class="product-single__form small--text-center" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="{{ pro_id }}"> <!-- The correct variant id of the product -->
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="hidden" name="form_type" value="product">
+                        <input type="hidden" name="utf8" value="✓">
+                      </form>
+
+                        <label class="switch">
+                            <input type="checkbox" id="shippingProtection" {% if variant_found %}checked{% endif %}>
+                            <span id="switchid" class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+  </div>
+
+
+
+  <script>
+
+let manualCheckboxToggle = false;
+async function addCartUpsellListeners2() { 
+  document.querySelectorAll('#shippingProtection').forEach(button => {
+    button.addEventListener("change", async (e) => { 
+      const key = {{pro_id}}; // Variant ID
+      manualCheckboxToggle = true;
+      if (e.target.checked) {
+        // If checked, add the variant (quantity = 1)
+        const cart = await fetchCartData('/cart/update.js', 'POST', { updates: { [key]: 1 } });
+        await updateCartItemCount(cart.item_count);
+        await updateCartDrawer();
+      } else {
+        // If unchecked, remove the variant (quantity = 0)
+        const cart = await fetchCartData('/cart/update.js', 'POST', { updates: { [key]: 0 } });
+        await updateCartItemCount(cart.item_count);
+        await updateCartDrawer();
+      }
+      manualCheckboxToggle = false;
+    });
+  });
+}
+
+
+async function checkCartAndToggleCheckbox() {
+  const cartData = await fetch('/cart.js').then(response => response.json());
+
+  // Now check item count and toggle button state
+  const itemsCount = cartData.item_count;
+  const shippingProtectionCheckbox = document.querySelector('#shippingProtection');
+
+  if (shippingProtectionCheckbox && !manualCheckboxToggle) {
+    // Only proceed with programmatic toggle if it wasn't manually clicked
+    if (itemsCount > 0 && !shippingProtectionCheckbox.checked) {
+      // If cart items > 0 and checkbox is not checked, check it
+      // shippingProtectionCheckbox.click();  // Trigger click event to check the checkbox
+    } else if (itemsCount <= 0 && shippingProtectionCheckbox.checked) {
+      // If cart items <= 0 and checkbox is checked, uncheck it
+      shippingProtectionCheckbox.click();  // Trigger click event to uncheck the checkbox
+    }
+  }
+}
+
+
+checkCartAndToggleCheckbox();
+
+  </script>

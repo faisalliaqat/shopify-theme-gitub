@@ -1,0 +1,48 @@
+<p class="up-title">{{ upsale_title}}</p>
+<div class="upsell_row_inner ">
+        {% if section.settings.upsell_option == 'unique_upsell' and cart.item_count > 0 %}
+            {% for item in cart.items %}
+              {% if item.product.metafields.custom.upsell_products != blank %}
+                {% if section.settings.upsell_design == 'slide_view' %}
+                  {% comment %}  ############## Slider Product ##############  {% endcomment %}
+                  <div class="swiper mySwiper product_slider">
+                    <div class="swiper-wrapper">
+                      {% for product in item.product.metafields.custom.upsell_products.value  %}
+                        {% render 'cart-upsell-item', product:product, inCartProducts:inCartProducts %}
+                        {% endfor %}
+                    </div> 
+                    <div class="swiper-pagination"></div>
+                  </div>  
+                {% else %}  
+                  {% comment %}  ############## List Product ##############  {% endcomment %}
+                  {% for product in item.product.metafields.custom.upsell_products.value  %}
+                    {% render 'cart-upsell-item', product:product, inCartProducts:inCartProducts %}
+                  {% endfor %}
+                {% endif %} 
+                
+              {% endif %}
+            {% endfor %} 
+
+        {% elsif  section.settings.upsell_option == 'products_list' or cart.item_count <= 0 %}
+          {% assign cartItemId = cart.items | map: 'product_id' | uniq | join: ', ' %}
+  
+          {% if section.settings.upsell_design == 'slide_view' %}
+            {% comment %}  ############## Slider Product ##############  {% endcomment %}
+            <div class="swiper mySwiper product_slider">
+              <div class="swiper-wrapper">
+                {% for product in section.settings['upsale_collection_default']  %}
+                    {% render 'cart-upsell-item', product:product, inCartProducts:inCartProducts %}
+                {% endfor %}
+              </div> 
+              <div class="swiper-pagination"></div>
+            </div>  
+          {% else %}  
+            {% comment %}  ############## List Product ##############  {% endcomment %}
+            {% for product in section.settings['upsale_collection_default']  %}
+                {% render 'cart-upsell-item', product:product, inCartProducts:inCartProducts %}
+            {% endfor %}
+          {% endif %} 
+  
+          
+        {% endif %}
+    </div>    

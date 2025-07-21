@@ -1,0 +1,819 @@
+<script>
+ window.shopUrl = '{{ request.origin }}';
+    window.routes = {
+      host: {{ request.host | json }},
+      root_url: {{ routes.root_url | json }},
+      rootUrlWithoutSlash: {% if routes.root_url == '/' %}''{% else %}{{ routes.root_url | json }}{% endif %},
+      cart_url: {{ routes.cart_url | json }},
+      cart_add_url: {{ routes.cart_add_url | json }},
+      cart_change_url: {{ routes.cart_change_url | json }},
+      cart_update_url: {{ routes.cart_update_url | json }},
+      search_url: {{ routes.search_url | json }},
+      predictive_search_url: {{ routes.predictive_search_url | json }},
+      product_recommendations_url: {{ routes.product_recommendations_url | json }}
+    };
+</script>
+<style>
+  body:has(.unit-cart-drawer--active) {overflow: hidden;}
+.cart-drawer---main .sezzle-checkout-button { width: 100%;} 
+  .unit-upsale-main select{
+      margin: 5px 0;
+      padding: 5px !important;
+      height: unset;
+      min-height: unset;
+      line-height: unset;
+      border-radius: 3px;
+    max-width: 85%;
+       width: 100%;
+        cursor: pointer;
+  }
+.unit-cart-drawer-footer.sticky {
+    max-width: 480px;
+    background: #fff;
+    width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 40px;
+    z-index: 3;
+}
+
+
+   dt, dd {
+    margin-top: 4px;
+    display: block;
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+  .unit-upsale-image a {text-decoration: none;}
+  .unit-upsale-image {position: relative;}
+  button:focus-visible, select:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+  .free_hide span {display: none !important;}
+.unit-cart-drawer {
+	 position: fixed;
+	 top: 0;
+	 left: -9999px;
+	 opacity: 0;
+	 width: 100%;
+	 height: 100%;
+	 background: rgba(12, 12, 12, 0.5);
+	 z-index: 999999999;
+    transition: left 0s 0.2s, opacity 0.2s;
+}
+
+.unit-cart-drawer--active {
+	left: 0;
+	opacity: 1;
+	transition: left 0s, opacity 0.2s;
+}
+.unit-cart-drawer-box {
+	width: 480px;
+	background: #fff;
+	margin-left: auto;
+  height: 100%;
+	transition: 0.2s opacity, 0.2s transform;
+	opacity: 0;
+	transform: translateX(40px);
+}
+.unit-cart-drawer-quantity-selector input[type="text"] {
+	height: auto;
+	line-height: normal;
+}
+.unit-cart-drawer--active .unit-cart-drawer-box {
+	transform: none;
+	opacity: 1;
+}
+.unit-cart-drawer-header {
+	display: flex;
+	align-items: center;
+	padding: 15.5px 20px;
+	border-bottom: 1px solid #e7e7e7;
+	width: auto !important;
+}
+.unit-cart-drawer-header h2 {
+	    flex: 1;
+    color: #333;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    margin: 0;
+    line-height: 27px;
+}
+.unit-cart-drawer-item-main-flex-right {
+	display: flex;
+	justify-content: space-between;
+    padding-right:4px;
+}
+.unit-cart-drawer-header-right {
+	color: #000;
+	display: inline-flex;
+	align-items: center;
+	gap: 20px;
+}
+.unit-cart-drawer-header-right-items {
+	display: block;
+	font-weight: 500;
+}
+.unit-cart-drawer-header-right-close {
+	width: 24px;
+	min-width: auto;
+	color: #000;
+	cursor: pointer;
+	background: transparent;
+	box-shadow: none;
+	padding: 0;
+	margin: 0;
+	height: 24px;
+	line-height: normal;
+      border: 0;
+}
+.unit-cart-drawer-header-right-close svg {
+	height: 10px;
+    width: 10px;
+    stroke: #333;
+}
+  .unit-cart-drawer-header-right-close svg path {
+	fill: #333;
+    stroke: #333;
+}
+.unit-cart-drawer-header-right-close:hover {
+	color: #000;
+	background: transparent;
+	box-shadow: none;
+}
+.unit-cart-drawer-form {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+  .cart-drawer---main {
+    height: 100%;
+}
+  form#cart_form{
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 57px); /* header height skip */
+    height: calc(100dvh - 57px);
+    
+}
+.unit-cart-drawer-items {
+	padding: 15px;
+      overflow: auto;
+    flex: 1;
+}
+.unit-cart-drawer-item {
+	display: flex;
+	align-items: flex-start;
+	background: white;
+	overflow: hidden;
+	margin-bottom: 20px;
+  column-gap: 16px;
+}
+.unit-cart-drawer-item + .unit-cart-drawer-item {
+	margin-top: 10px;
+}
+.unit-cart-drawer-item-image {
+	width: 90px;
+	line-height: 0px !important;
+}
+.unit-cart-drawer-item-image img {
+	width: 100%;
+	object-fit: contain;
+}
+.unit-cart-drawer-item-main {
+	flex: 1;
+}
+
+button.unit-cart-drawer-button:hover {
+	cursor: pointer;
+}
+.unit-cart-drawer-item-main-flex-left {
+	flex: 1;
+}
+.unit-cart-drawer-item-main-flex-left h3 {
+	    color: #333;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    margin: 0px;
+}
+.unit-cart-drawer-item-main-flex-left h3 a {
+	color: #333;
+}
+.unit-cart-drawer-item-main-flex-left span {
+	margin-top: 4px;
+	display: block;
+	color: #333;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+}
+.unit-cart-drawer-item-main-flex-right span {
+	color: #000;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+}
+  .unit-cart-drawer__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+        margin-top: 22px;
+}
+.unit-cart-drawer-quantity-selector {
+	    display: inline-flex;
+    border: 1px solid #DDDDDD;
+    padding: 8px;
+    border-radius: 130px;
+    width: 102px;
+    justify-content: space-between;
+}
+ .unit-cart-drawer-quantity-selector input:focus-visible {
+ outline: none;
+ box-shadow: none;
+}
+.unit-cart-drawer-quantity-selector button {
+	width: 28px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	user-select: none;
+	background: transparent;
+	border: none;
+	min-width: auto;
+	padding: 0;
+	margin: 0px;
+	color: #000;
+	box-shadow: none;
+	border-radius: 0px !important;
+}
+.unit-cart-drawer-quantity-selector input {
+	width: 100%;
+	font-size: 13px;
+	text-align: center;
+	background-color: transparent;
+	border: none;
+	padding: 0;
+	border-radius: 0px;
+	margin: 0;
+}
+.unit-cart-drawer-footer {
+	    padding: 20px 20px 30px;
+	margin-top: auto;
+	border-top: 1px solid #e7e7e7;
+}
+.unit-cart-drawer-footer-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+.unit-cart-drawer-footer-row:last-of-type {
+	margin-bottom: 6px;
+}
+.unit-cart-drawer-footer-row h3 {
+	    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    margin: 0;
+}
+.unit-cart-drawer-footer-row span {
+	    color: #333;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+}
+.unit-cart-drawer-button {
+	display: block;
+    width: 100%;
+    font-weight: 500;
+    background-color: #57A2D0;
+    color: #fff;
+    border: 2px solid #57A2D0;
+    line-height: 21px;
+    font-size: 14px;
+    padding: 12px 0px !important;
+    border-radius: 160px;
+    margin: 0;
+    text-transform: uppercase;
+    font-family: 'Poppins';
+}
+.unit-cart-drawer-button:hover, .add.unit-upsale-add:hover {
+	background-color: #4bd297;
+    border-color: #4bd297;
+    color: #fff;
+}
+.emptyCart {
+   text-align: center;
+    padding: 32px 20px 31px;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.6);
+} 
+ 
+.emptyCart a {
+    width: 100%;
+    text-transform: uppercase;
+}  
+.unit-cart-drawer-empty {
+	    color: #747474;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 500;
+}
+.unit-cart-drawer-item-main-flex-left a {
+	text-decoration: none;
+}
+.unit-cart-drawer-item-main-flex-left a:hover {
+	text-decoration: underline;
+}
+.unit-remove-item:hover {
+	cursor: pointer;
+	text-decoration: underline;
+	box-shadow: none !important;
+}
+.unit-remove-item {
+	    background: transparent !important;
+    border: none !important;
+    box-shadow: none;
+    color: #747474;
+    padding: 0;
+    text-align: left;
+    font-size: 12px;
+    width: auto;
+    margin: 0;
+    line-height: 18px;
+    height: auto;
+    font-weight: 500;
+    text-decoration: underline;
+}
+.unit-cart-drawer-quantity-selector svg {
+	height: 10px;
+	width: 10px;
+}
+.unit-cart-drawer-quantity-selector-minus:focus, .unit-cart-drawer-quantity-selector-plus:focus, .unit-remove-item:focus, .unit-upsale-title:focus, .price-section:focus, .unit-cart-drawer-item-main-flex-left a:focus, .unit-upsale-title a:focus {
+	outline: none !important;
+}
+
+/*  upsale collection  */
+.unit-upsale-main {
+    display: grid;
+    align-items: center;
+    padding: 20px 0px;
+    text-align: left;
+    gap: 16px;
+    grid-template-columns: 90px 1fr;
+}
+.unit-upsale-image img {
+	    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+.add.unit-upsale-add {
+	    min-width: auto;
+    padding: 10px 18px 10px 18px;
+    border: 2px solid rgba(87, 162, 208, 1);
+    border-radius: 41.25px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 120px;
+    margin-top: 23px;
+    height: auto;
+    min-height: 40px;
+    line-height: 21px;
+    cursor: pointer;
+    background: rgba(87, 162, 208, 1);
+    color: #fff;
+}
+.add.unit-upsale-add  .loading-overlay__spinner {
+    width: 12px;
+      display: inline-flex;
+}
+  
+.unit-upsale-title a {
+	    text-decoration: none;
+    color: rgba(51, 51, 51, 1);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 19.6px;
+    text-transform: capitalize;
+      padding-top: 4px;
+    display: inline-block;
+}
+  .price-section {
+    padding-top: 16px;
+}
+span.discount-price {
+	    text-decoration: line-through;
+    margin-right: 11px;
+    color: rgba(189, 69, 61, 1);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+}
+  .unit-upsale-title {
+    line-height: normal;
+    display: flex;
+    flex-direction: column;
+}
+span.actual-price {
+	    font-weight: 500;
+    font-size: 14px;
+    color: #20252D;
+    line-height: 21px;
+}
+.up-title {
+	    color: #333;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px;
+    padding: 24px 0px 16px 0px;
+    margin: 0px;
+}
+.sticky_upsell .up-title{
+   padding: 0px;
+}  
+
+li.discounts__discount svg {
+    width: 12px;
+}
+ 
+  span.final_price {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: #20252D;
+    margin-top: 14px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+@media(max-width:480px) {
+  .unit-cart-drawer-box {
+  	width: 100%;
+  }
+  .unit-upsale-main {
+  	gap: 10px;
+  }
+   
+}
+@media(max-width:460px){  
+ 
+  .unit-cart-drawer-header {
+      padding: 15px 15px;
+  }  
+  
+  .unit-cart-drawer-footer {
+      padding: 10px 15px;
+  }  
+} 
+@media(max-width:374px) {
+ 
+  .add.unit-upsale-add {
+  	width: auto;
+  }
+  .unit-cart-drawer-button {
+  	line-height: 22px;
+  }
+} 
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+{% assign pro_id = '' %}
+{%for variant in section.settings.show_protection_pro.variants %}{% assign pro_id = variant.id %}{% endfor %} 
+
+<div class="unit-cart-drawer">
+  <div class="unit-cart-drawer-box">
+    {% comment %} Header section {% endcomment %}
+    <header class="unit-cart-drawer-header">
+     {% if section.settings.header != blank %} <h2>{{ section.settings.header }} ({{ cart.item_count }})</h2>{% endif %}
+
+      <div class="unit-cart-drawer-header-right">
+        <!-- <span class="unit-cart-drawer-header-right-items">{{ cart.item_count }} items</span> -->
+
+        <button id="close--icon" class="unit-cart-drawer-header-right-close" type="button">
+          {% render 'icon-close-new' %}
+        </button>
+      </div>
+    </header>
+
+    
+    <div class="cart-drawer---main " >
+    {% assign fl-collection = blank %}
+      {% form 'cart', cart, class: 'cart-drawer-form' %}
+        {% if cart.item_count == 0 %}
+          <div class="emptyCart">
+            <p class="unit-cart-drawer-empty">Your cart is empty.</p>
+            <p class="unit-cart-drawer-empty">Explore our popular categories below!</p>
+            <!-- <a class="button" href="/collections/gift-guides">Shop Now</a> -->
+          </div>
+          
+        {% else %}
+          <div class="unit-cart-drawer-items">
+            {% assign collectedCollectionNames = "" %}
+
+            {% assign inCartProducts = '' %}
+
+        
+            {% for item in cart.items %}
+              {% assign inCartProducts = inCartProducts | append:item.product.handle | append:',' %}
+        
+              <div class="unit-cart-drawer-item {% if item.id == pro_id %}fr_hidden{% endif %}" data-line-item-key="{{ item.key }}" data-variant="{{ item.id }}">
+                <div class="unit-cart-drawer-item-image">
+                  <img src="{{ item.image | img_url: '200x' }}" alt="{{ item.title }}" loading="lazy">
+                </div>
+                <div class="unit-cart-drawer-item-main">
+                  <div class="unit-cart-drawer-item-main-flex">
+                    <div class="unit-cart-drawer-item-main-flex-left {{ item.product.title | downcase | split: " " | first | append: "_hide" }}">
+                      <h3>
+                        <a href="{{ item.url }}">{{ item.product.title }}</a>
+                      </h3>
+                      {%- if item.product.has_only_default_variant == false
+                            or item.properties.size != 0
+                            or item.selling_plan_allocation != null
+                          -%}
+                            <dl>
+                              {%- if item.product.has_only_default_variant == false -%}
+                                {%- for option in item.options_with_values -%}
+                                  <div class="product-option">
+                                    <dt>{{ option.name }}:</dt>
+                                    <dd>
+                                      {{ option.value -}}
+                                      {%- unless forloop.last %}, {% endunless %}
+                                    </dd>
+                                  </div>
+                                {%- endfor -%}
+                              {%- endif -%}
+
+                              {%- for property in item.properties -%}
+                                {%- assign property_first_char = property.first | slice: 0 -%}
+                                {%- if property.last != blank and property_first_char != '_' -%}
+                                  <div class="product-option">
+                                    <dt>{{ property.first }}:</dt>
+                                    <dd>
+                                      {%- if property.last contains '/uploads/' -%}
+                                        <a
+                                          href="{{ property.last }}"
+                                          class="link"
+                                          target="_blank"
+                                          aria-describedby="a11y-new-window-message"
+                                        >
+                                          {{ property.last | split: '/' | last }}
+                                        </a>
+                                      {%- else -%}
+                                        {{ property.last }}
+                                      {%- endif -%}
+                                    </dd>
+                                  </div>
+                                {%- endif -%}
+                              {%- endfor -%}
+                            </dl>
+
+                            <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                          {%- endif -%}
+
+                          <ul
+                            class="discounts list-unstyled"
+                            role="list"
+                            aria-label="{{ 'customer.order.discount' | t }}"
+                          >
+                            {%- for discount in item.line_level_discount_allocations -%}
+                              <li class="discounts__discount">
+                                {%- render 'icon-discount' -%}
+                                {{ discount.discount_application.title }}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                      
+                     <span class="final_price">{{ item.price | money }}</span>
+                      <div class="unit-cart-drawer__row">
+                        <div class="unit-cart-drawer-quantity-selector">
+                          <button class="unit-cart-drawer-quantity-selector-minus" type="button">{% render 'icon-mins-new' %}</button>
+                          <input type="text" value="{{ item.quantity }}">
+                          <button class="unit-cart-drawer-quantity-selector-plus" type="button">{% render 'icon-plus-new' %} </button>
+                        </div>
+                        <div class="unit-cart-drawer-item-main-flex-right"><button class="unit-remove-item">Remove</button></div>
+                      </div> 
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            
+              {% for collection in item.product.collections %}{% assign collectedCollectionNames = collectedCollectionNames | append: collection.handle | append: ',' %}{% endfor %}
+            {% endfor %}
+          
+            <!-- Upsale Collection -->
+            {% if section.settings.upsell_sticky == false %}
+               {% if cart.item_count > 0 and section.settings.upsell_show == true %}
+                <div class="unit-upsale-row "  >
+                    {% render "cart-upsell-list" , inCartProducts:inCartProducts, upsale_title: section.settings.upsale-title %}
+                </div>
+              {% endif %} 
+            {% endif %} 
+          </div>
+
+          <footer class="unit-cart-drawer-footer sticky">
+          <!-- Upsale Collection sticky -->
+            {% if section.settings.upsell_sticky == true %}
+               {% if cart.item_count > 0 and section.settings.upsell_show == true %}
+                <div class="unit-upsale-row {% if section.settings.upsell_sticky == true  %}sticky_upsell{% endif %}"  >
+                    {% render "cart-upsell-list" , inCartProducts:inCartProducts, upsale_title: section.settings.upsale-title %}
+                </div>
+              {% endif %}
+            {% endif %} 
+            <!-- shipping protection -->
+            {% if section.settings.show_protection == true %}
+              <div class="protection_widget">
+                {% render 'shipping-protection' , pro_id: pro_id, protection_title:section.settings.protection_title, protection_text:section.settings.protection_text, ship_pro:section.settings.show_protection_pro %}
+              </div>
+            {% endif %}  
+            {% comment %}
+            {% if cart.total_discounts > 0 %}
+              <div class="unit-cart-drawer-footer-row">
+                <h3>Discounts</h3>
+                <span>{{ cart.total_discounts | money }}</span>
+              </div>
+            {% endif %}
+          
+            {% if cart.item_count > 0 %}
+              <div class="unit-cart-drawer-footer-row">
+                <h3>Items</h3>
+                <span class="unit-cart-drawer-header-right-items">{{ cart.item_count }} </span>
+              </div>
+            {% endif %}
+           {% endcomment %}
+          
+            <div class="unit-cart-drawer-footer-row">
+              <h3>Total Amount </h3>
+              <span class="nvd-subtotal">{{ cart.total_price | money }}</span>
+            </div>
+            <button type="submit" name="checkout" class="unit-cart-drawer-button">{{ section.settings.checkout_btn }}</button>
+          </footer>
+        {% endif %}
+      {% endform %}
+      
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  let swiper;
+
+  function initSwiper() {
+  // Check if DOM element exists
+  const sliderEl = document.querySelector(".product_slider");
+  if (!sliderEl) return;
+
+  // Check if swiper exists and is valid
+  if (swiper && typeof swiper.destroy === "function" && swiper.el && document.body.contains(swiper.el)) {
+    swiper.destroy(true, true);
+  }
+
+  swiper = new Swiper(sliderEl, {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    autoplay: false,
+    centeredSlides: true,
+    roundLengths: true,
+    loop: true,
+    pagination: {
+      el: sliderEl.querySelector(".swiper-pagination"),
+      clickable: true,
+    },
+  });
+}
+
+  document.addEventListener("DOMContentLoaded", () => { initSwiper(); });
+</script>
+{% schema %}
+{
+  "name": "Cart Drawer Updated",
+  "tag": "section",
+  "settings": [
+    {
+        "type": "header",
+        "content": "Cart header"
+      },
+     {
+        "type": "text",
+        "id": "header",
+        "label": "Header Text",
+        "default": "Your Cart"
+      },
+     {
+        "type": "text",
+        "id": "checkout_btn",
+        "label": "Checkout Button",
+        "default": "Checkout"
+      },
+      {
+        "type": "header",
+        "content": "Upsell Product"
+      },
+      {
+        "type": "checkbox",
+        "id": "upsell_show",
+        "label": "Upsell Show",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "upsell_sticky",
+        "label": "Upsell sticky",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "upsell_design",
+        "label": "Upsell Design",
+        "options": [
+          {
+            "value": "list_view",
+            "label": "List View"
+          },
+          {
+            "value": "slide_view",
+            "label": "Slide View"
+          }
+        ],
+        "default": "list_view"
+      },
+      {
+        "type": "text",
+        "id": "upsale-title",
+        "label": "Title",
+        "default": "UP TO 40% OFF OUR MOST POPULAR ADDITiONS"
+      },
+      {
+        "type": "select",
+        "id": "upsell_option",
+        "label": "Upsell From",
+        "options": [
+          {
+            "value": "products_list",
+            "label": "Product list"
+          },
+          {
+            "value": "unique_upsell",
+            "label": "Unique upsells"
+          }
+        ],
+        "default": "products_list"
+      },
+      {
+        "type": "product_list",
+        "id": "upsale_collection_default",
+        "label": "Default Upsell Products"
+      },
+      {
+        "type": "header",
+        "content": "Shipping Protection"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_protection",
+        "label": "show protection",
+        "default": false
+      },
+      {
+        "type": "product",
+        "id": "show_protection_pro",
+        "label": "protection Product",
+      },
+      {
+        "type": "text",
+        "id": "protection_title",
+        "label": "Shipping Protection Title",
+        "default":"Shipping Protection"
+      },
+      {
+        "type": "text",
+        "id": "protection_text",
+        "label": "Shipping Protection Text",
+        "default":"Protect your order from damage, loss, or theft during shipping."
+      },
+  ],
+  
+  "presets": [
+    {
+      "name": "Cart Drawer Updated"
+    }
+  ]
+}
+{% endschema %}

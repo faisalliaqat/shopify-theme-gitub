@@ -1,0 +1,32 @@
+{% unless inCartProducts contains product.handle %}
+    {% if product.available %}
+      <div class="swiper-slide">
+      <div class="unit-upsale-main unique_upsell">
+        <div class="unit-upsale-image"><a href="{{ product.url }}"> <img src="{{ product.featured_image | img_url: '200x' }}" alt="{{ product.title }}" loading="lazy"></a></div>
+        <div class="unit-upsale-title">
+          <a href="{{ product.url }}">{{ product.title  }}</a>
+          {% if product.variants.size > 1 %}
+          <select class="variant_selector_cart_list">
+            {% for variant in product.variants %}
+                  {% if variant.available %}
+                    <option value="{{ variant.id }}" data-price="{{ variant.price | money }}" data-compare-price="{{ variant.compare_at_price | money }}">{{ variant.title }}</option>
+                  {% endif %}
+            {% endfor %}
+          </select>
+          {% endif %}
+          <div class="price-section">
+            {% if product.compare_at_price > product.price -%}<span class="discount-price">{{ product.compare_at_price | money }}</span>{%- endif %}
+            <span class="actual-price">{{ product.price | money }}</span>
+          </div>
+           <div class="unit-upsale-btn">
+            <button class="add unit-upsale-add" type="submit" name="add" data-variant-id="{{ product.first_available_variant.id }}" >
+              <span>Add To Cart</span>
+              <div class="loading-overlay__spinner hidden"> <svg aria-hidden="true" focusable="false" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"> <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle> </svg> </div>
+            </button>
+          </div>
+        </div>
+      </div> 
+      {% assign inCartProducts = inCartProducts | append:product.handle | append:',' %}
+      </div>  
+    {% endif %}
+  {% endunless %}

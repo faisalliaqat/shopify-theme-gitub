@@ -1,0 +1,50 @@
+<div class="collection-cart">
+	{% for variant in product.variants%}
+	<input type="hidden" value="{{variant.id}}" id="varientid">
+	{% endfor %}
+	<button class="" id="collection-{{product.id}}">Add To Cart</button>
+</div>
+
+
+<script>
+	$(document).on('click', '#collection-{{product.id}}', function() {
+    console.log("click");
+    let getvarientid = $(this).parents('.collection-cart').find('#varientid').val();
+    let formobj = {
+        quantity: 1,
+        id: getvarientid
+    };
+    
+    // Add to cart via AJAX
+    $.ajax({
+        type: "post",
+        url: "/cart/add.js",
+        cache: false,
+        data: formobj,
+        dataType: "json",
+        success: function(data) {
+            console.log("success");
+            // Update cart drawer
+          $('.fl-btn').click();
+            $('cart-drawer').removeClass('is-empty');
+            $('.drawer__inner-empty').hide();
+            $('.cart-drawer').load(location.href + " #CartDrawer", function() {
+                // Ensure any additional JS required for the cart is re-initialized
+                console.log("Cart drawer updated");
+            });
+        },
+        error: function(xhr, ajaxOption, thrownError) {
+            console.log("Error");
+        }
+    });
+});
+
+	
+</script>
+
+
+<style>
+  .card__heading a:after{
+    content:none;
+  }
+</style>

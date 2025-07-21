@@ -1,0 +1,91 @@
+<style>
+  
+</style>
+
+<section class="guaranteed_section">
+  <div class="container">
+    <div class="guarantee_row">
+      <div class="guarantee_item guarantee_text">
+        <div class="guarantee_logo">
+          <svg width="54" height="60" viewBox="0 0 54 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99745 8.13208L22.1124 1.09258C25.2403 -0.364191 28.8108 -0.364194 31.9387 1.09258L46.9937 8.10416C51.3962 10.1545 54.286 14.7629 53.9775 19.801C52.7943 39.1258 47.5219 47.8618 33.2696 57.9967C29.5084 60.6714 24.5468 60.6649 20.7828 57.9945C6.57421 47.9144 1.10613 39.3002 0.0184954 19.7332C-0.25971 14.7282 2.62545 10.1683 6.99745 8.13208ZM37.6932 25.4817C38.5115 24.5465 38.4167 23.125 37.4815 22.3067C36.5464 21.4884 35.1249 21.5832 34.3066 22.5184L25.6969 32.3581C25.4326 32.6601 24.9773 32.7006 24.6639 32.4498L19.4055 28.2431C18.4351 27.4668 17.0192 27.6241 16.2429 28.5945C15.4667 29.5648 15.624 30.9807 16.5943 31.757L21.8528 35.9638C24.0467 37.7188 27.2334 37.4357 29.0835 35.3214L37.6932 25.4817Z" fill="white"/>
+          </svg>
+        </div>
+         <div class="guarantee_content">
+           {% if section.settings.subheading != blank %}<div class="guarantee_subheading">{{ section.settings.subheading }}</div>{% endif %}
+           {% if section.settings.heading != blank %}<div class="guarantee_heading">{{ section.settings.heading }}</div>{% endif %}
+           {% if section.settings.text != blank %}<div class="guarantee_text">{{ section.settings.text }}</div>{% endif %}
+         </div> 
+      </div>
+      <div class="guarantee_item guarantee_button">
+        <div class="button-dark-width">
+          {% if section.settings.button_label != blank %}
+            <div class="htu-btn-text ">
+                <a class="button-dark-atc button-dark-color" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 2.1665L6.5 7.99984L1.5 13.8332" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+          {% endif %}
+          {% if section.settings.guarantee_text != blank %}
+            <div class="button-dark-guarantee">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 0.833496C5.43737 0.833496 1.33331 4.93755 1.33331 10.0002C1.33331 15.0628 5.43737 19.1668 10.5 19.1668C15.5626 19.1668 19.6666 15.0628 19.6666 10.0002C19.6666 4.93755 15.5626 0.833496 10.5 0.833496ZM14.8392 8.08942C15.1647 7.76398 15.1647 7.23634 14.8392 6.91091C14.5138 6.58547 13.9862 6.58547 13.6607 6.91091L9.24998 11.3217L7.33923 9.41091C7.0138 9.08547 6.48616 9.08547 6.16072 9.41091C5.83529 9.73634 5.83529 10.264 6.16072 10.5894L8.66072 13.0894C8.98616 13.4149 9.5138 13.4149 9.83924 13.0894L14.8392 8.08942Z" fill="#49827C"/></svg>
+               {{ section.settings.guarantee_text }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+  "name": "Guaranteed",
+  "settings": [
+   
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Try it for 30 days"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You Will Love It. Guaranteed."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "TRY SEA MOSS GEL NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "guarantee Text",
+      "default": "30-Day Money Back Guarantee"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guaranteed"
+    }
+  ]
+}  
+{% endschema %}

@@ -1,0 +1,337 @@
+<style>
+  /* common css */
+  .container{
+    max-width:1280px;
+    margin: 0 auto;
+    padding:0 15px;
+  }
+  .button-dark-color{
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    background: linear-gradient(90deg, #FF934F 0%, #FF7340 100%);
+    display: inline-flex;
+    border: 2px solid;
+    border-image-source: linear-gradient(90deg, #FF7340 0%, #FF934F 100%);
+    padding: 24px 32px;
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 100%;
+    letter-spacing: 0;
+    max-width: 400px;
+    width: 100%;
+  }
+.button-dark-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+}
+ .button-dark-guarantee p {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0;
+    color: #253937;
+    margin: 0;
+}
+  .button-dark-width {
+    max-width: 400px;
+    width: 100%;
+}
+ 
+  @media(min-width:991px){
+     .hide_desktop{
+    display:none !important;
+  }
+  }
+   @media(max-width:991px){
+     .hide_mobile{
+    display:none !important;
+  }
+  }
+@media(max-width:769px){
+  .button-dark-color {
+    padding: 20px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    }
+    .button-dark-guarantee p {
+    font-size: 16px;
+}
+ 
+}
+ 
+ /* common css */
+
+
+
+  section.how-to-use-section {
+    background: #FAF7F3;
+    padding: 48px 0;
+}
+  .htu-image img {
+    max-width: 100%;
+    width: 100%;
+        border-radius: 32px;
+}
+  .htu-image, .htu-content {
+    max-width: 50%;
+    width: 100%;
+}
+  .how-to-use-row {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    background: #E7F0E4;
+    padding: 48px;
+        border-radius: 48px;
+}
+  .how-to-use-row.right_img {
+    flex-direction: row-reverse;
+}
+  .htu-subtitle {
+    margin: 0;
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 100%;
+    background: linear-gradient(90deg, #49827C 0%, #79A39E 100%);
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 9999px;
+}
+  .htu-title p {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 100%;
+    margin: 0;
+    color: #253937;
+}
+  .htu-title a {
+    color: #253937;
+}
+  .step_number {
+    width: 25px;
+    height: 25px;
+    display: inline-flex;
+    background: #49827C;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: 0;
+    min-width: 25px;
+}
+  .step_text {
+    font-size: 18px;
+    line-height: 150%;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+ .htu-step {
+    margin-top: 48px;
+    margin-bottom: 48px;
+}
+  .htu-item {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+  .htu-title {
+    margin-top: 16px;
+}
+  
+   @media(max-width:991px){
+    .htu-title p {
+    font-size: 40px;
+}
+    .htu-subtitle {
+    font-size: 18px;
+          padding: 10px 12px;
+    }
+    .how-to-use-row {
+    flex-direction: column;
+      padding: 32px 16px;
+          gap: 32px;
+}
+    .how-to-use-row.right_img {
+    flex-direction: column;
+}
+    .htu-image, .htu-content {
+    max-width: 100%
+}
+  .htu-title {
+    margin-top: 12px;
+    margin-bottom: 32px;
+}
+      .htu-image img {
+        border-radius: 24px;
+}
+     .htu-step {
+    margin-top: 0;
+    margin-bottom: 32px;
+}
+     .step_text {
+    font-size: 16px;
+}
+ .htu-item {
+    gap: 6px;
+    margin-bottom: 12px;
+}  
+     .step_number {
+    width: 19px;
+    height: 19px;
+    border-radius: 6px;
+    font-size: 16px;
+    min-width: 19px;
+}
+  }
+
+  @media(max-width:600px){
+    .htu-image {
+    text-align: center;
+}
+  }
+</style>
+
+<section class="how-to-use-section">
+  <div class="container">
+    <div class="how-to-use-row {{ section.settings.image_align }}">
+     {% if section.settings.image != blank %}
+      <div class="htu-image">
+        {% if section.settings.subheading != blank %}<div class="htu-subtitle hide_desktop">{{ section.settings.subheading }}</div>{% endif %}
+        {% if section.settings.heading != blank %}<div class="htu-title hide_desktop">{{ section.settings.heading }}</div>{% endif %}
+        <img src="{{ section.settings.image | image_url  }}" width="" height="" alt="{{ shop.name }}">
+      </div>
+      {% endif %}
+      <div class="htu-content">
+        {% if section.settings.subheading != blank %}<div class="htu-subtitle hide_mobile">{{ section.settings.subheading }}</div>{% endif %}
+        {% if section.settings.heading != blank %}<div class="htu-title hide_mobile">{{ section.settings.heading }}</div>{% endif %}
+        <div class="htu-step">
+          {% for block in section.blocks %}
+            {% if block.settings.step != blank %}
+            <div class="htu-item">
+              <span class="step_number">{{ forloop.index }}</span>
+              <span class="step_text">{{ block.settings.step }}</span>
+            </div>
+          {% endif %}
+          {% endfor %}  
+        </div>
+        <div class="button-dark-width">
+          {% if section.settings.button_label != blank %}
+            <div class="htu-btn-text ">
+                <a class="button-dark-atc button-dark-color" href="{{ section.settings.button_url }}">{{ section.settings.button_label }}  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 2.1665L6.5 7.99984L1.5 13.8332" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+          {% endif %}
+          {% if section.settings.guarantee != blank %}
+            <div class="button-dark-guarantee">
+                <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 0.833496C5.43737 0.833496 1.33331 4.93755 1.33331 10.0002C1.33331 15.0628 5.43737 19.1668 10.5 19.1668C15.5626 19.1668 19.6666 15.0628 19.6666 10.0002C19.6666 4.93755 15.5626 0.833496 10.5 0.833496ZM14.8392 8.08942C15.1647 7.76398 15.1647 7.23634 14.8392 6.91091C14.5138 6.58547 13.9862 6.58547 13.6607 6.91091L9.24998 11.3217L7.33923 9.41091C7.0138 9.08547 6.48616 9.08547 6.16072 9.41091C5.83529 9.73634 5.83529 10.264 6.16072 10.5894L8.66072 13.0894C8.98616 13.4149 9.5138 13.4149 9.83924 13.0894L14.8392 8.08942Z" fill="#49827C"/></svg>
+               {{ section.settings.guarantee }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+  "name": "How To Use",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_align",
+      "label": "Image Align",
+      "options": [
+        {
+          "value": "left_img",
+          "label": "Left"
+        },
+        {
+          "value": "right_img",
+          "label": "Right"
+        }
+      ],
+      "default": "left_img"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Quick  |  Easy  |  Delicious"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Button "
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "TRY SEA MOSS GEL NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "guarantee",
+      "label": "Guarantee",
+      "default": "30-Day Money Back Guarantee"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Item",
+      "type": "item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step",
+          "label": "Step",
+          "default": "Take 1-2 tablespoons of Sea Moss Gel."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How To Use"
+    }
+  ]
+}  
+{% endschema %}

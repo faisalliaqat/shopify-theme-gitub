@@ -1,0 +1,337 @@
+    <section class="faq_carve" style="display:none;">
+      <svg width="1440" height="48" viewBox="0 0 1440 48" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_81_2451)"><rect width="1440" height="48" fill="#FAF7F3"/><path d="M837.5 24.1931C1091.5 -3.75369 1249.5 -7.21384 1440 12.3899V145H0V24.1934C65 30.8401 400.574 72.2667 837.5 24.1931Z" fill="#E7F0E4"/></g><defs><clipPath id="clip0_81_2451"><rect width="1440" height="48" fill="white"/></clipPath></defs></svg>
+    </section>
+    <section class="faq_{{ section.id }} inner_section accordian ar_accordion_section" >
+        <div class="container_section accordian">
+          {% if section.settings.subheading != blank %}<div class="accordian_section_subheading"><p class="accordian_subheading">{{ section.settings.subheading }}</p></div> {% endif %}  
+          {% if section.settings.heading != blank %}<div class="accordian_section_heading"> {{ section.settings.heading }}</div>{% endif %}
+          {% if section.settings.text != blank %}<div class="accordian_section_text"> {{ section.settings.text }}</div>{% endif %}
+          
+            <div class="accordian-section-main">
+                <div class="ar_accordion">
+                  {% for block in section.blocks %}
+                    <div class="ar_accordion-content">
+                        <header>
+                            <span class="ar_accordion_title">{{ block.settings.title }}</span>
+                              <i class="ar_accordion_title_icon ar_accordion_title-plus"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.5C2 7.78595 2 5.42893 3.46447 3.96447C4.92893 2.5 7.28595 2.5 12 2.5C16.714 2.5 19.0711 2.5 20.5355 3.96447C22 5.42893 22 7.78595 22 12.5C22 17.214 22 19.5711 20.5355 21.0355C19.0711 22.5 16.714 22.5 12 22.5C7.28595 22.5 4.92893 22.5 3.46447 21.0355C2 19.5711 2 17.214 2 12.5Z" fill="#E7F0E4" stroke="#253937" stroke-width="2"/><path d="M15 12.5L12 12.5M12 12.5L9 12.5M12 12.5L12 9.5M12 12.5L12 15.5" stroke="#253937" stroke-width="2" stroke-linecap="round"/></svg></i>
+                              <i class="ar_accordion_title_icon ar_accordion_title-minus" style="display: none;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" fill="#E7F0E4" stroke="#49827C" stroke-width="2"/><path d="M15 12H9" stroke="#49827C" stroke-width="2" stroke-linecap="round"/></svg></i>
+                        </header>
+
+                        <div class="ar_description">
+                           {{ block.settings.description }}
+                        </div>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+            <div class="btn_main">
+              {% if section.settings.btn != blank %}
+                      <div class="btn-of-faq">
+                        <div class="faq-btn-text ">
+                            <a class="button-dark-atc button-dark-color" href="{{ section.settings.btn_url }}">{{ section.settings.btn }}  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 2.1665L6.5 7.99984L1.5 13.8332" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </a>
+                        </div>
+                      
+                    </div>
+                {% endif %}
+              {% if section.settings.btn_atc != blank %}
+                <div class="button-dark-guarantee">
+                    <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 0.833496C5.43737 0.833496 1.33331 4.93755 1.33331 10.0002C1.33331 15.0628 5.43737 19.1668 10.5 19.1668C15.5626 19.1668 19.6666 15.0628 19.6666 10.0002C19.6666 4.93755 15.5626 0.833496 10.5 0.833496ZM14.8392 8.08942C15.1647 7.76398 15.1647 7.23634 14.8392 6.91091C14.5138 6.58547 13.9862 6.58547 13.6607 6.91091L9.24998 11.3217L7.33923 9.41091C7.0138 9.08547 6.48616 9.08547 6.16072 9.41091C5.83529 9.73634 5.83529 10.264 6.16072 10.5894L8.66072 13.0894C8.98616 13.4149 9.5138 13.4149 9.83924 13.0894L14.8392 8.08942Z" fill="#49827C"/></svg>
+                   {{ section.settings.btn_atc }}
+                </div>
+              {% endif %}    
+            </div>                    
+        </div>
+    </section>
+
+<style>
+ 
+.inner_section.accordian {
+    padding: 60px 0;
+  background: #E7F0E4;
+
+}
+
+.container_section.accordian {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.accordian_subheading {
+    text-align: center;
+    margin: 0;
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 100%;
+    background: linear-gradient(90deg, #49827C 0%, #79A39E 100%);
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 9999px;
+}
+.accordian_section_subheading {
+    text-align: center;
+}
+.accordian_section_heading {
+    margin-top: 16px;
+}
+.accordian_section_heading p {
+    text-align: center;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin: 0;
+      color: #253937;
+}
+.accordian_section_heading a {
+    color: #49827C;
+}
+  .accordian_section_text {
+    text-align: center;
+    font-size: 18px;
+    line-height: 150%;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: #253937;
+    margin-top: 32px;
+}
+  .accordian-section-main {
+    margin-top: 48px;
+}
+.ar_accordion {
+    max-width: 100%;
+    width: 100%;
+}
+
+.ar_accordion .ar_accordion-content {
+    overflow: hidden;
+       background: #FAF7F3;
+    border-radius: 24px;
+    margin-bottom: 24px;
+}
+
+.ar_accordion-content.open {
+        padding-bottom: 32px;
+      
+}
+
+.ar_accordion-content header {
+   display: flex;
+    padding: 32px 72px 32px 32px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s linear;
+      position: relative;
+}
+
+.ar_accordion-content header .ar_accordion_title {
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: 100%;
+  color:#253937;
+}
+
+
+.ar_accordion-content.open header {
+         padding-bottom: 12px;
+}
+.ar_accordion-content .ar_description p {
+    font-style: normal;
+    font-weight: 400;
+    transition: all 0.2s linear;
+    margin: 0;
+    line-height: 150%;
+    letter-spacing: 0;
+    font-size: 18px;
+}
+.ar_description {
+    height: 0;
+  transition: height 0.3s ease;
+      padding-left: 32px;
+    padding-right: 72px;
+}
+.ar_accordion-content.open span.ar_accordion_title {
+    color: #49827C;
+}
+  .faq-btn-text {
+    text-align: center;
+    padding-top: 24px;
+}
+  
+  
+  
+  .ar_accordion_title_icon {
+    position: absolute;
+    right: 32px;
+    top: 36%;
+    display: flex;
+}
+  .ar_accordion-content.open .ar_accordion_title_icon {
+    top: 46%;
+}
+@media only screen and (max-width: 991px) {
+ .inner_section.accordian {
+    padding: 32px 15px;
+}
+}
+
+  @media only screen and (max-width: 769px) {
+.accordian_subheading {
+    font-size: 18px;
+}
+  .accordian_section_heading p {
+    font-size: 40px;
+  }
+  .accordian_section_heading {
+    margin-top: 12px;
+}
+ .accordian_section_text {
+    font-size: 16px;
+    margin-top: 28px;
+}   
+    .accordian-section-main {
+    margin-top: 32px;
+}
+     .ar_accordion-content header {
+        padding: 24px 56px 24px 24px;
+    } 
+    .ar_accordion .ar_accordion-content {
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+  .ar_accordion-content header .ar_accordion_title {
+    font-size: 18px;
+}  
+    .ar_accordion-content.open header {
+    padding-bottom: 8px;
+}
+    .ar_accordion-content .ar_description p {
+    font-size: 16px;
+}
+    .ar_description {
+    padding-left: 24px;
+    padding-right: 56px;
+}
+    .ar_accordion-content.open {
+    padding-bottom: 24px;
+}
+    .faq-btn-text {
+    padding-top: 16px;
+}
+    
+  
+}
+</style>   
+<script>
+    const accordionContent = document.querySelectorAll(".ar_accordion-content");
+
+    accordionContent.forEach((item, index) => {
+        let header = item.querySelector("header");
+        header.addEventListener("click", () => {
+            item.classList.toggle("open");
+
+            let description = item.querySelector(".ar_description");
+            if (item.classList.contains("open")) {
+                description.style.height = `${description.scrollHeight}px`;
+                item.querySelector(".ar_accordion_title-plus").style.display = "none";
+                item.querySelector(".ar_accordion_title-minus").style.display = "flex";
+            } else {
+                description.style.height = "0px";
+                item.querySelector(".ar_accordion_title-minus").style.display = "none";
+                item.querySelector(".ar_accordion_title-plus").style.display = "flex";
+            }
+            removeOpen(index);
+        })
+    })
+
+    function removeOpen(index1) {
+        accordionContent.forEach((item2, index2) => {
+            if (index1 != index2) {
+                item2.classList.remove("open");
+
+                let des = item2.querySelector(".ar_description");
+                des.style.height = "0px";
+                item.querySelector(".ar_accordion_title-minus").style.display = "none";
+                item.querySelector(".ar_accordion_title-plus").style.display = "flex";
+            }
+        })
+    }
+</script>
+{% schema %}
+{
+  "name": "Faqs",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Sub Heading",
+      "id": "subheading",
+      "default": "True sea moss faqs"
+    },
+    {
+      "type": "richtext",
+      "label": "Heading",
+      "id": "heading",
+      "default": "<p>Frequently Asked Questions</p>"
+    },
+    {
+      "type": "text",
+      "label": "Text",
+      "id": "text",
+      "default": "Backed by over 700 research studies, the ingredients in our sea moss supplement are proven to be effective."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "label": "Button Label",
+      "id": "btn",
+      "default": "TRY SEA MOSS GEL NOW"
+    },
+    {
+      "type": "url",
+      "label": "Button URL",
+      "id": "btn_url"
+    },
+    {
+      "type": "richtext",
+      "label": "Button ATC ",
+      "id": "btn_atc",
+      "default": "<p>FREE Shipping on all orders | 100% Money-back guarantee</p>"
+    },
+  
+  ],
+  "blocks": [
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        
+        {
+          "type": "text",
+          "label": "Title",
+          "id": "title",
+          "default": "How much sea moss can I take per day?"
+        },
+        {
+          "type": "richtext",
+          "label": "Description",
+          "id": "description",
+          "default": "<p>For general wellness, 1-2 tablespoons (approx. 15-30g) daily is recommended. Adjust as needed based on personal preference and desired benefits.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Faqs"
+    }
+  ]
+}
+{% endschema %}

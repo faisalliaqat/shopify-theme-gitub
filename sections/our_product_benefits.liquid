@@ -1,0 +1,139 @@
+<style>
+  
+  .product-benefits_section {
+    background: linear-gradient(90deg, #79A39E 0%, #49827C 100%);
+    padding: 48px 40px;
+}
+  .benefit-item-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+  .benefit-item-text {
+    margin: 0;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+    text-transform: uppercase;
+        color: #fff;
+       text-align: center; 
+}
+  .product-benefits-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 32px;
+    justify-items: center;
+}
+  @media(max-width:1100px){
+     .product-benefits-row {
+    gap: 24px;
+}
+  }
+
+  @media(max-width:991px){
+    .product-benefits-row {
+    grid-template-columns: repeat(3, 1fr);
+          row-gap: 32px;
+    }
+    .product-benefits_section {
+    padding: 32px 0px;
+}
+    .benefit-item-text {
+    font-size: 20px;
+    }
+    .benefit-item-image {
+    margin-bottom: 16px;
+}
+  }
+
+  @media(min-width:600px){
+    .benefit-item-text br {
+    display: none;
+}
+  }
+  @media(max-width:600px){
+    .benefit-item-image svg, .benefit-item-image img {
+    width: 48px;
+    height: 48px;
+}
+  }
+
+ 
+</style>
+
+<div class="product-benefits_section">
+  <div class="container">
+    <div class="product-benefits-row">
+      {% for block in section.blocks %}
+        <div class="product-benefit-item"> 
+          {% if block.settings.icon_type == "image" %}
+            {% if  block.settings.image != blank %}
+              <div class="benefit-item-image">
+                <img src="{{ block.settings.image | image_url: width: 64  }}" width="" height="" alt="{{ shop.name }}">
+              </div>
+            {% endif %}
+          {% else %}
+            {% if  block.settings.svg != blank %}
+              <div class="benefit-item-image">
+               {{ block.settings.svg }}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% if block.settings.text != blank %}<p class="benefit-item-text">{{ block.settings.text }}</p>{% endif %}
+        </div>
+      {% endfor %}  
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+  "name": "Our Product Benefits",
+  "settings": [],
+  "blocks": [
+    {
+      "name": "Icon",
+      "type": "icon",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            {
+              "value": "image",
+              "label": "Image"
+            },
+            {
+              "value": "svg",
+              "label": "SVG"
+            }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "svg",
+          "label": "SVG"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Product Benefits"
+    }
+  ]
+}  
+{% endschema %}
