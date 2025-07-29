@@ -10,14 +10,14 @@
             <div class="accordian-section-main">
                 <div class="ar_accordion faq_block">
                   {% for block in section.blocks %}
-                    <div class="ar_accordion-content">
+                    <div class="ar_accordion-content accordion-content">
                         <header>
                             <span class="ar_accordion_title">{{ block.settings.title }}</span>
                               <i class="ar_accordion_title_icon ar_accordion_title-plus"><svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12.5C2 7.78595 2 5.42893 3.46447 3.96447C4.92893 2.5 7.28595 2.5 12 2.5C16.714 2.5 19.0711 2.5 20.5355 3.96447C22 5.42893 22 7.78595 22 12.5C22 17.214 22 19.5711 20.5355 21.0355C19.0711 22.5 16.714 22.5 12 22.5C7.28595 22.5 4.92893 22.5 3.46447 21.0355C2 19.5711 2 17.214 2 12.5Z" fill="#E7F0E4" stroke="#253937" stroke-width="2"/><path d="M15 12.5L12 12.5M12 12.5L9 12.5M12 12.5L12 9.5M12 12.5L12 15.5" stroke="#253937" stroke-width="2" stroke-linecap="round"/></svg></i>
                               <i class="ar_accordion_title_icon ar_accordion_title-minus" style="display: none;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" fill="#E7F0E4" stroke="#49827C" stroke-width="2"/><path d="M15 12H9" stroke="#49827C" stroke-width="2" stroke-linecap="round"/></svg></i>
                         </header>
 
-                        <div class="ar_description">
+                        <div class="ar_description ar_des">
                            {{ block.settings.description }}
                         </div>
                     </div>
@@ -26,7 +26,7 @@
             </div>
             <div class="btn_main">
               {% if section.settings.btn != blank %}
-                      <div class="btn-of-faq">
+                      <div class="btn-of-faq btn-faq">
                         <div class="faq-btn-text ">
                             <a class="button-dark-atc button-dark-color" href="{{ section.settings.btn_url }}">{{ section.settings.btn }}  <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 2.1665L6.5 7.99984L1.5 13.8332" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
